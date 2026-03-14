@@ -1,44 +1,56 @@
-from arg_parsing import configure_argument_parser
+import sys
+
+from args_parsing import configure_argument_parser
+from constants import MODE_TO_FUNCTION
 from outputs import create_table
 from read_file import get_students_info
+from statistics import median
 
 
-def get_coffee_avg_sum(students_data: dict) -> list:
+def get_median_coffee(students_info: dict[str, list[dict]]) -> list[tuple]:
     """
     Функция получает медиану затрат на кофе для каждого уникального студента.
     """
     students_coffee = []
-    for name, info in students_data.items():
+    for name, info in students_info.items():
         prices_coffee = []
         for detailed_info in info:
             prices_coffee.append(int(detailed_info['coffee_spent']))
 
         prices_coffee.sort()
-        len_price = len(prices_coffee)
-        if len_price % 2 == 0:
-            avg_price = (
-                prices_coffee[len_price // 2] + prices_coffee[len_price // 2 + 1]
-                ) // 2
-        else:
-            avg_price = prices_coffee[len_price // 2]
-
+        avg_price = median(prices_coffee)
         students_coffee.append((name, avg_price))
-        students_coffee.sort(key=lambda x: x[1], reverse=True)
+
+    students_coffee.sort(key=lambda x: x[1], reverse=True)
     return students_coffee
 
 
-MODE_TO_FUNCTION = {'median_coffee': get_coffee_avg_sum}
+MODE_TO_FUNCTION['median_coffee'] = get_median_coffee
 
 
 def main():
     parser = configure_argument_parser()
     args = parser.parse_args()
 
-    # Проверка на существование файлов
-    students_data = get_students_info(args.files)
+    if args.files is None:
+        print('Не указаны файлы для обработки.')
+        sys.exit(1)
+    if args.report not in MODE_TO_FUNCTION:
+        print(f'Укажите название отчёта.'
+              f' Используйте -h/--help для получения справки.'
+              )
+        sys.exit(1)
 
-    # проверка на несуществующий отчёт
-    output_data = MODE_TO_FUNCTION[args.report](students_data)
+    try:
+        students_info = get_students_info(args.files)
+    except FileNotFoundError as error:
+        print(f'Файл не найден, {error}')
+        sys.exit(1)
+    except Exception as error:
+        print(f'Ошибка при чтении файла, {error}')
+        sys.exit(1)
+
+    output_data = MODE_TO_FUNCTION[args.report](students_info)
     headers = ['student', args.report]
     table = create_table(output_data, headers)
     print(table)
