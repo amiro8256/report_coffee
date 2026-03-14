@@ -5,7 +5,7 @@ def get_students_info(files: list[str]) -> dict[str, list[dict]]:
     """Функция собирает данные о всех студентах из разных файлов.
 
         Возвращает словарь: {
-            name: [
+            'name': [
                 {'coffee_spent': str,
                 'date': str,
                 'exam': str,
@@ -14,7 +14,7 @@ def get_students_info(files: list[str]) -> dict[str, list[dict]]:
                 'study_hours': str,},
                 {...},
                 ]
-            name: [
+            'name': [
                 {...},
                 {...},
                 ]
