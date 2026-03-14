@@ -1,6 +1,6 @@
+import argparse
 import csv
 from pprint import pprint
-from statistics import median
 
 
 def read_file(csv_file: str) -> dict:
@@ -46,7 +46,7 @@ def get_students_info() -> dict:
             else:
                 students_data[name].extend(data[name])
 
-    pprint(students_data)
+    # pprint(students_data)
     return students_data
 
 
@@ -63,22 +63,21 @@ def get_coffee_avg_sum():
 
         prices_coffee.sort()
         len_price = len(prices_coffee)
-        if len_price % 2 != 0:
+        if len_price % 2 == 0:
             avg_price = (
                 prices_coffee[len_price // 2] + prices_coffee[len_price // 2 + 1]
                 ) // 2
         else:
             avg_price = prices_coffee[len_price // 2]
-        students_coffee[name] = avg_price
 
-        # разные результаты
-        # avg_price = median(prices_coffee)
         students_coffee[name] = avg_price
-
         # сортировка по убыванию!
-    pprint(students_coffee)
+    # pprint(students_coffee)
 
 
-
-
-get_coffee_avg_sum()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-f', '--files', nargs='+', help='Название файлов')
+    parser.add_argument('-r', '--report', help='Название отчета')
+    args = parser.parse_args()
+    print(args.files)
