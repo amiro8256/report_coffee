@@ -9,7 +9,9 @@ def get_median_coffee(students_info: dict[str, list[dict]]) -> list[tuple]:
     for name, info in students_info.items():
         prices_coffee = []
         for detailed_info in info:
-            prices_coffee.append(int(detailed_info['coffee_spent']))
+            coffee_spent = detailed_info.get('coffee_spent', 0)
+            if isinstance(coffee_spent, (int, float)):
+                prices_coffee.append(int(coffee_spent))
 
         prices_coffee.sort()
         avg_price = median(prices_coffee)
