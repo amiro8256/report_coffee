@@ -6,7 +6,6 @@ from constants import MODE_TO_FUNCTION
 from outputs import create_table
 from read_file import get_students_info
 
-
 MODE_TO_FUNCTION['median_coffee'] = get_median_coffee
 
 
@@ -18,9 +17,10 @@ def main():
         print('Не указаны файлы для обработки.')
         sys.exit(1)
     if args.report not in MODE_TO_FUNCTION:
-        print(f'Укажите название отчёта.'
-              f' Используйте -h/--help для получения справки.'
-              )
+        print(
+            'Укажите название отчёта.'
+            ' Используйте -h/--help для получения справки.'
+        )
         sys.exit(1)
 
     try:

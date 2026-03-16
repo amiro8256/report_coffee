@@ -22,7 +22,7 @@ def get_students_info(files: list[str]) -> dict[str, list[dict]]:
     """
     students_data = {}
     for csv_file in files:
-        with open(csv_file, mode='r', encoding='UTF-8', newline='') as file:
+        with open(csv_file, encoding='UTF-8', newline='') as file:
             csv_reader = csv.DictReader(file)
 
             for row in csv_reader:

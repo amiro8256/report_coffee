@@ -21,3 +21,10 @@ dmypy.json
 
 # csv files
 *.csv
+
+# pytest
+.coverage
+.pytest_cache/
+
+# Ruff
+.ruff_cache/

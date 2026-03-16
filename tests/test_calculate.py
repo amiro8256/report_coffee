@@ -2,7 +2,6 @@ import pytest
 
 from report_coffee.calculate_funcs import get_median_coffee
 
-
 ONE_ROW = {
     'Иван Кузнецов': [
         {
@@ -127,3 +126,10 @@ def test_sort_report():
     res = get_median_coffee(TWO_STUDENTS)
     print(res)
     assert res == [('Кристобаль Хунта', 650), ('Джузеппе Бальзамо', 625),]
+
+
+def test_return_tupe():
+    """Проверяет функцию get_median_coffee. Возвращает список кортежей."""
+    res = get_median_coffee(ONE_ROW)
+    assert isinstance(res, list)
+    assert isinstance(res[0], tuple)

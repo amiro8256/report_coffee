@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+
 from constants import MODE_TO_FUNCTION
 
 

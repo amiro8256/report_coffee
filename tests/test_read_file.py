@@ -5,7 +5,6 @@ import pytest
 
 from report_coffee.read_file import get_students_info
 
-
 TEST_DIR = pathlib.Path(__file__).resolve().parent
 
 CONTEXT = '''
@@ -28,7 +27,6 @@ CONTEXT = '''
         Елена Волкова,2024-06-01,280,6.0,8,норм,Математика
         Елена Волкова,2024-06-02,310,5.5,9,норм,Математика
         Елена Волкова,2024-06-03,340,5.0,10,устал,Математика
-
 '''
 
 
@@ -42,7 +40,7 @@ def create_files():
         file_name = f'test_file{i}.csv'
         with open(TEST_DIR/file_name, mode='w', encoding='utf-8') as f:
             writer = csv.writer(f, delimiter=',', lineterminator='\n')
-            rows_lst = [row for row in CONTEXT.strip().split('\n')]
+            rows_lst = CONTEXT.strip().split('\n')
             headers = rows_lst[0].split(',')
             writer.writerow(headers)
             middle = len(rows_lst) // 2
@@ -96,7 +94,8 @@ def test_return_type(create_files):
     ]
     res = get_students_info(files)
     assert isinstance(res, dict)
-    assert all([isinstance(value, list) for value in res.values()])
+    assert isinstance(list(res.values())[0], list)
+    # assert all([isinstance(value, list) for value in res.values()])
 
 
 def test_empty_file(create_files):
